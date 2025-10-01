@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
+import Image from "next/image"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -32,11 +33,14 @@ export function Header() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">Z</span>
-            </div>
-            <span className="text-xl font-bold text-foreground">ZuHa</span>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/placeholder-logo1.png"
+              alt="ZuHa Software Logo"
+              width={90}
+              height={90}
+              className="w-18 h-18 md:w-20 md:h-20"
+            />
           </div>
 
           <nav className="hidden md:flex items-center gap-8">

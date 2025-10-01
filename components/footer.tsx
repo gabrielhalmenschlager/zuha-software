@@ -1,4 +1,5 @@
 import { Github, Linkedin, Twitter, Instagram } from "lucide-react"
+import Image from "next/image"
 
 export function Footer() {
   return (
@@ -6,11 +7,14 @@ export function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">Z</span>
-              </div>
-              <span className="text-xl font-bold text-foreground">ZuHa</span>
+            <div className="flex items-center gap-3 mb-4">
+              <Image
+                src="/placeholder-logo1.png"
+                alt="ZuHa Software Logo"
+                width={90}
+                height={90}
+                className="w-18 h-18 md:w-20 md:h-20"
+              />
             </div>
             <p className="text-muted-foreground leading-relaxed">
               Transformando ideias em experiências digitais excepcionais.
