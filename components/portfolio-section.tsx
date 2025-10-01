@@ -1,50 +1,43 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 const projects = [
   {
-    title: "E-commerce Platform",
+    title: "Car Sales Website",
     category: "Desenvolvimento Web",
-    description: "Plataforma completa de e-commerce com painel administrativo",
-    image: "/modern-ecommerce-dashboard.png",
+    description: "Website para venda de carros com interface moderna e responsiva",
+    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    githubUrl: "https://github.com/gabrielhalmenschlager/car-sales-website",
   },
   {
-    title: "SaaS Dashboard",
-    category: "Aplicação Web",
-    description: "Dashboard analítico para gestão de dados empresariais",
-    image: "/analytics-dashboard-dark.jpg",
+    title: "Sistema Biblioteca Senac",
+    category: "Sistema de Gestão",
+    description: "Sistema completo de gestão de biblioteca com controle de empréstimos",
+    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    githubUrl: "https://github.com/gabrielhalmenschlager/sistemaBibliotecaSenac",
   },
   {
-    title: "Landing Page Corporativa",
-    category: "Landing Page",
-    description: "Landing page de alta conversão para startup de tecnologia",
-    image: "/corporate-landing-page.jpg",
+    title: "Controle de Ativos Senac",
+    category: "Sistema de Gestão",
+    description: "Sistema para controle e gestão de ativos empresariais",
+    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    githubUrl: "https://github.com/gabrielhalmenschlager/controle-de-ativos-senac",
   },
   {
-    title: "App Mobile Banking",
-    category: "Desenvolvimento Mobile",
-    description: "Aplicativo de banco digital com design moderno",
-    image: "/mobile-banking-app.png",
-  },
-  {
-    title: "Portal de Notícias",
-    category: "CMS",
-    description: "Sistema de gerenciamento de conteúdo para portal de notícias",
-    image: "/news-portal-website.png",
-  },
-  {
-    title: "Marketplace",
-    category: "Plataforma",
-    description: "Marketplace conectando prestadores de serviço e clientes",
-    image: "/marketplace-platform.jpg",
+    title: "Sieg Gestão Escolar",
+    category: "Sistema de Gestão",
+    description: "Sistema completo de gestão escolar com CRUD para professores, alunos e cursos",
+    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    githubUrl: "https://github.com/gabrielhalmenschlager/Senac.SiegGestaoEscolar",
   },
 ]
 
 export function PortfolioSection() {
   const [visibleProjects, setVisibleProjects] = useState<number[]>([])
+  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: number]: number }>({})
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -71,6 +64,24 @@ export function PortfolioSection() {
     return () => observer.disconnect()
   }, [])
 
+  const nextImage = (projectIndex: number, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const project = projects[projectIndex]
+    setCurrentImageIndex(prev => ({
+      ...prev,
+      [projectIndex]: (prev[projectIndex] || 0 + 1) % project.images.length
+    }))
+  }
+
+  const prevImage = (projectIndex: number, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const project = projects[projectIndex]
+    setCurrentImageIndex(prev => ({
+      ...prev,
+      [projectIndex]: prev[projectIndex] === 0 ? project.images.length - 1 : (prev[projectIndex] || 0) - 1
+    }))
+  }
+
   return (
     <section id="portfolio" ref={sectionRef} className="py-20 md:py-32 bg-accent/30 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,20 +98,62 @@ export function PortfolioSection() {
           {projects.map((project, index) => (
             <Card
               key={index}
-              className={`group overflow-hidden hover:border-foreground/20 transition-all duration-300 hover:shadow-lg hover:shadow-foreground/5 cursor-pointer ${
+              className={`group overflow-hidden hover:border-foreground/20 transition-all duration-300 hover:shadow-lg hover:shadow-foreground/5 ${
                 visibleProjects.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 50}ms` }}
             >
               <div className="relative overflow-hidden aspect-video">
                 <img
-                  src={project.image || "/placeholder.svg"}
+                  src={project.images[currentImageIndex[index] || 0] || "/placeholder.svg"}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <ExternalLink className="w-8 h-8 text-foreground" />
-                </div>
+                
+                {/* Navigation arrows */}
+                {project.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={(e) => prevImage(index, e)}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-background/80 hover:bg-background rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <ChevronLeft className="w-4 h-4 text-foreground" />
+                    </button>
+                    <button
+                      onClick={(e) => nextImage(index, e)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-background/80 hover:bg-background rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <ChevronRight className="w-4 h-4 text-foreground" />
+                    </button>
+                  </>
+                )}
+
+                {/* Image indicators */}
+                {project.images.length > 1 && (
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {project.images.map((_, imgIndex) => (
+                      <div
+                        key={imgIndex}
+                        className={`w-2 h-2 rounded-full ${
+                          (currentImageIndex[index] || 0) === imgIndex 
+                            ? 'bg-foreground' 
+                            : 'bg-foreground/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* GitHub button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    window.open(project.githubUrl, '_blank')
+                  }}
+                  className="absolute top-2 right-2 w-10 h-10 bg-background/90 hover:bg-background rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  <ExternalLink className="w-4 h-4 text-foreground" />
+                </button>
               </div>
               <CardContent className="p-6">
                 <span className="text-sm text-muted-foreground">{project.category}</span>

@@ -67,22 +67,16 @@ export function Footer() {
             <h3 className="font-semibold text-foreground mb-4">Redes Sociais</h3>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://github.com/gabrielhalmenschlager"
                 className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
               >
                 <Github className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/gabriel-halmenschlager/"
                 className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
               >
                 <Linkedin className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
-              >
-                <Twitter className="w-5 h-5" />
               </a>
               <a
                 href="#"

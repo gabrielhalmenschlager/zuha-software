@@ -98,7 +98,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">E-mail</h3>
-                    <p className="text-muted-foreground">contato@zuha.com.br</p>
+                    <p className="text-muted-foreground">zuha.software@gmail.com</p>
                   </div>
                 </div>
               </CardContent>
@@ -112,7 +112,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Telefone</h3>
-                    <p className="text-muted-foreground">+55 (11) 9999-9999</p>
+                    <p className="text-muted-foreground">+55 (51) 99675-4949</p>
                   </div>
                 </div>
               </CardContent>
@@ -126,7 +126,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Localização</h3>
-                    <p className="text-muted-foreground">São Paulo, SP - Brasil</p>
+                    <p className="text-muted-foreground">Santa Cruz do Sul, RS - Brasil</p>
                   </div>
                 </div>
               </CardContent>

@@ -95,7 +95,7 @@ export function AboutSection() {
             </div>
           </div>
 
-          <div
+          {/* <div
             className={`bg-card border border-border rounded-xl p-8 md:p-12 transition-all duration-700 delay-500 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
@@ -118,7 +118,7 @@ export function AboutSection() {
                 <div className="text-muted-foreground">Taxa de Satisfação</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
