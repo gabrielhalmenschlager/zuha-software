@@ -1,35 +1,56 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Star } from "lucide-react"
+import { Shield, Clock, Award, Users, Zap, Heart } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
-const testimonials = [
+const commitments = [
   {
-    name: "Carlos Silva",
-    role: "CEO, TechStart",
-    content:
-      "A ZuHa transformou nossa visão em realidade. O profissionalismo e a qualidade do trabalho superaram todas as expectativas.",
-    rating: 5,
+    icon: Shield,
+    title: "Qualidade Garantida",
+    description: "Código limpo, testado e documentado. Garantimos a qualidade do seu projeto desde o primeiro dia.",
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10",
   },
   {
-    name: "Ana Rodrigues",
-    role: "Diretora de Marketing, InnovaCorp",
-    content:
-      "Excelente parceria! A equipe é extremamente competente e sempre disponível para ajudar. Recomendo fortemente.",
-    rating: 5,
+    icon: Clock,
+    title: "Entrega no Prazo",
+    description: "Cumprimos prazos e mantemos você informado sobre o progresso do projeto em todas as etapas.",
+    color: "text-green-500",
+    bgColor: "bg-green-500/10",
   },
   {
-    name: "Pedro Santos",
-    role: "Fundador, StartupHub",
-    content:
-      "Trabalhar com a ZuHa foi uma experiência incrível. Entregaram um produto de altíssima qualidade no prazo combinado.",
-    rating: 5,
+    icon: Award,
+    title: "Tecnologia de Ponta",
+    description: "Utilizamos as mais modernas tecnologias e melhores práticas do mercado para seu projeto.",
+    color: "text-purple-500",
+    bgColor: "bg-purple-500/10",
+  },
+  {
+    icon: Users,
+    title: "Suporte Contínuo",
+    description: "Estamos aqui para ajudar mesmo após a entrega. Suporte técnico e manutenção quando precisar.",
+    color: "text-orange-500",
+    bgColor: "bg-orange-500/10",
+  },
+  {
+    icon: Zap,
+    title: "Performance Otimizada",
+    description: "Seu site será rápido, responsivo e otimizado para todos os dispositivos e motores de busca.",
+    color: "text-yellow-500",
+    bgColor: "bg-yellow-500/10",
+  },
+  {
+    icon: Heart,
+    title: "Parceria de Confiança",
+    description: "Construímos relacionamentos duradouros baseados em transparência, comunicação e resultados.",
+    color: "text-red-500",
+    bgColor: "bg-red-500/10",
   },
 ]
 
 export function TestimonialsSection() {
-  const [visibleTestimonials, setVisibleTestimonials] = useState<number[]>([])
+  const [visibleCommitments, setVisibleCommitments] = useState<number[]>([])
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -37,10 +58,10 @@ export function TestimonialsSection() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            testimonials.forEach((_, index) => {
+            commitments.forEach((_, index) => {
               setTimeout(() => {
-                setVisibleTestimonials((prev) => [...prev, index])
-              }, index * 150)
+                setVisibleCommitments((prev) => [...prev, index])
+              }, index * 100)
             })
             observer.disconnect()
           }
@@ -61,36 +82,34 @@ export function TestimonialsSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            O Que Dizem Nossos Clientes
+            Nossos Compromissos
           </h2>
           <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
-            Depoimentos de quem confia no nosso trabalho
+            O que você pode esperar ao trabalhar conosco
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <Card
-              key={index}
-              className={`transition-all duration-700 ${
-                visibleTestimonials.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <CardContent className="p-6">
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-foreground text-foreground" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground leading-relaxed mb-6">"{testimonial.content}"</p>
-                <div>
-                  <div className="font-semibold text-foreground">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          {commitments.map((commitment, index) => {
+            const IconComponent = commitment.icon
+            return (
+              <Card
+                key={index}
+                className={`group transition-all duration-700 hover:shadow-lg hover:shadow-foreground/5 ${
+                  visibleCommitments.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <CardContent className="p-6">
+                  <div className={`w-16 h-16 rounded-2xl ${commitment.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className={`w-8 h-8 ${commitment.color}`} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground mb-4">{commitment.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{commitment.description}</p>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
       </div>
     </section>
