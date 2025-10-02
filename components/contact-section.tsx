@@ -7,36 +7,59 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, Phone, MapPin } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export function ContactSection() {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   })
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+          }
+        })
+      },
+      { threshold: 0.1 },
+    )
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
+    const phone = "5551996754949" // Número exibido na seção (Brasil)
+    const name = formData.name.trim()
+    const email = formData.email.trim()
+    const message = formData.message.trim()
+    const text = `Olá, meu nome é ${name} (${email}).\n\n${message}`
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
+    window.open(url, "_blank")
   }
 
   return (
-    <section id="contact" className="py-20 md:py-32 relative">
+    <section id="contact" ref={sectionRef} className="py-20 md:py-32 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             Entre em Contato
           </h2>
-          <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
+          <div className={`h-1 w-16 md:w-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-primary/70 to-primary/30 transition-all duration-700 origin-center ${isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"}`} />
+          <p className={`text-lg text-muted-foreground text-pretty leading-relaxed transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             Vamos conversar sobre o seu próximo projeto
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="transition-all border border-border bg-background/40 backdrop-blur-sm hover:border-primary/30 hover:shadow-lg/10">
               <CardContent className="p-6 md:p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
@@ -81,16 +104,17 @@ export function ContactSection() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full">
-                    Enviar Mensagem
+                  <Button type="submit" size="lg" className="w-full transition-all hover:-translate-y-0.5">
+                    Enviar pelo WhatsApp
                   </Button>
+                  <p className="text-xs text-muted-foreground text-center">Você será redirecionado ao WhatsApp com a mensagem preenchida.</p>
                 </form>
               </CardContent>
             </Card>
           </div>
 
           <div className="space-y-6">
-            <Card>
+            <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md/20">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
@@ -104,7 +128,7 @@ export function ContactSection() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md/20">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
@@ -118,7 +142,7 @@ export function ContactSection() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md/20">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">

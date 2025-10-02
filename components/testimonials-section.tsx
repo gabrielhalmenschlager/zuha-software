@@ -51,6 +51,7 @@ const commitments = [
 
 export function TestimonialsSection() {
   const [visibleCommitments, setVisibleCommitments] = useState<number[]>([])
+  const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -58,6 +59,7 @@ export function TestimonialsSection() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            setIsVisible(true)
             commitments.forEach((_, index) => {
               setTimeout(() => {
                 setVisibleCommitments((prev) => [...prev, index])
@@ -81,10 +83,11 @@ export function TestimonialsSection() {
     <section id="testimonials" ref={sectionRef} className="py-20 md:py-32 bg-accent/30 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             Nossos Compromissos
           </h2>
-          <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
+          <div className={`h-1 w-16 md:w-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-primary/70 to-primary/30 transition-all duration-700 origin-center ${isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"}`} />
+          <p className={`text-lg text-muted-foreground text-pretty leading-relaxed transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             O que você pode esperar ao trabalhar conosco
           </p>
         </div>
@@ -95,13 +98,13 @@ export function TestimonialsSection() {
             return (
               <Card
                 key={index}
-                className={`group transition-all duration-700 hover:shadow-lg hover:shadow-foreground/5 ${
+                className={`group transition-all duration-700 hover:shadow-lg hover:shadow-foreground/5 border border-border bg-background/40 backdrop-blur-sm hover:border-primary/30 hover:-translate-y-1 motion-reduce:transition-none ${
                   visibleCommitments.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <CardContent className="p-6">
-                  <div className={`w-16 h-16 rounded-2xl ${commitment.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-16 h-16 rounded-2xl ${commitment.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-translate-y-1 transition-transform duration-300`}>
                     <IconComponent className={`w-8 h-8 ${commitment.color}`} />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground mb-4">{commitment.title}</h3>
