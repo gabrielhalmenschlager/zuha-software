@@ -93,19 +93,16 @@ export function PortfolioSection() {
             projects.forEach((_, index) => {
               setTimeout(() => {
                 setVisibleProjects((prev) => [...prev, index])
-              }, index * 100)
+              }, index * 100) // delay sequencial
             })
             observer.disconnect()
           }
         })
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     )
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
   }, [])
 
@@ -131,10 +128,23 @@ export function PortfolioSection() {
     <section id="portfolio" ref={sectionRef} className="py-20 md:py-32 bg-accent/30 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
+          <h2
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance transition-all duration-700 ${
+              visibleProjects.length > 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
             Projetos Recentes
           </h2>
-          <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
+          <div
+            className={`h-1 w-16 md:w-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-primary/70 to-primary/30 transition-all duration-700 origin-center ${
+              visibleProjects.length > 0 ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+            }`}
+          />
+          <p
+            className={`text-lg text-muted-foreground text-pretty leading-relaxed transition-all duration-700 delay-100 ${
+              visibleProjects.length > 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
             Conheça alguns dos projetos que desenvolvemos para nossos clientes
           </p>
         </div>
@@ -155,8 +165,7 @@ export function PortfolioSection() {
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                
-                {/* Navigation arrows */}
+
                 {project.images.length > 1 && (
                   <>
                     <button
@@ -174,27 +183,10 @@ export function PortfolioSection() {
                   </>
                 )}
 
-                {/* Image indicators */}
-                {project.images.length > 1 && (
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {project.images.map((_, imgIndex) => (
-                      <div
-                        key={imgIndex}
-                        className={`w-2 h-2 rounded-full ${
-                          (currentImageIndex[index] || 0) === imgIndex 
-                            ? 'bg-foreground' 
-                            : 'bg-foreground/50'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {/* GitHub button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
-                    window.open(project.githubUrl, '_blank')
+                    window.open(project.githubUrl, "_blank")
                   }}
                   className="absolute top-2 right-2 w-10 h-10 bg-background/90 hover:bg-background rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 >
