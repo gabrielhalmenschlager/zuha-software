@@ -39,6 +39,7 @@ const services = [
 
 export function ServicesSection() {
   const [visibleCards, setVisibleCards] = useState<number[]>([])
+  const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function ServicesSection() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            setIsVisible(true)
             services.forEach((_, index) => {
               setTimeout(() => {
                 setVisibleCards((prev) => [...prev, index])
@@ -69,10 +71,23 @@ export function ServicesSection() {
     <section id="services" ref={sectionRef} className="py-20 md:py-32 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
+          <h2
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance transition-all duration-700 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
             Nossos Serviços
           </h2>
-          <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
+          <div
+            className={`h-1 w-16 md:w-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-primary/70 to-primary/30 transition-all duration-700 origin-center ${
+              isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+            }`}
+          />
+          <p
+            className={`text-lg text-muted-foreground text-pretty leading-relaxed transition-all duration-700 delay-100 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
             Oferecemos soluções completas para transformar sua presença digital
           </p>
         </div>
